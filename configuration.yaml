@@ -1,0 +1,85 @@
+homeassistant:
+  # Name of the location where Home Assistant is running
+  name: Home
+  # Location required to calculate the time the sun rises and sets
+  latitude: !secret home_lat
+  longitude: !secret home_long
+  # Impacts weather/sunrise data (altitude above sea level in meters)
+  elevation: 193
+  # metric for Metric, imperial for Imperial
+  unit_system: imperial
+  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+  time_zone: America/Chicago
+
+# Enables the frontend
+frontend:
+
+http:
+  # Login password
+   api_password: !secret http_password
+
+# Checks for available updates
+updater:
+
+# Discover some devices automatically
+discovery:
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+conversation:
+
+# Enables support for tracking state changes over time.
+history:
+
+# View all events in a logbook
+logbook:
+
+# Track the sun
+sun:
+
+# Weather Prediction
+sensor:
+  platform: yr
+
+# Text to speech
+tts:
+  platform: google
+
+# Thermostat
+ecobee:
+  api_key: !secret ecobee_api_key
+
+# Location tracking broker
+mqtt:
+  broker: !secret mosquitto_broker
+  port: !secret mosquitto_port
+  client_id: !secret mosquitto_client_id
+  username: !secret mosquitto_username
+  password: !secret mosquitto_password
+
+zone:
+  name: Home
+  latitude: !secret home_lat
+  longitude: !secret home_long
+  radius: 100
+  icon: mdi:home-variant
+
+zone 2:
+  name: !secret zone_2_name
+  latitude: !secret zone_2_lat
+  longitude: !secret zone_2_long
+  radius: 100
+  icon: mdi:desktop-tower
+
+zone 3:
+  name: !secret zone_3_name
+  latitude: !secret zone_3_lat
+  longitude: !secret zone_3_long
+  radius: 100
+  icon: mdi:hospital
+
+device_tracker:
+  - platform: owntracks
+    #max_gps_accuracy: 50
+
+# Sends notifications
+#notify:
