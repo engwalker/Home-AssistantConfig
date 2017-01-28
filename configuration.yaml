@@ -82,4 +82,19 @@ device_tracker:
     #max_gps_accuracy: 50
 
 # Sends notifications
-#notify:
+notify:
+  - name: pushbullet
+    platform: pushbullet
+    api_key: !secret pushbullet_api_key
+
+automation:
+  - alias: "Startup Notification"
+    trigger:
+      platform: event
+      event_type: homeassistant_start
+    action:
+      service: notify.pushbullet
+      data:
+        title: "Alert"
+        message: "Home Assistant restarted"
+        #target: ""
