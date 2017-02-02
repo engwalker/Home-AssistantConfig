@@ -13,6 +13,7 @@ deps
 tts
 secrets.yaml
 known_devices.yaml
+zones.yaml
 *.conf
 ecobee.conf
 pyozw.sqlite

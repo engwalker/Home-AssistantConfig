@@ -38,7 +38,33 @@ sun:
 
 # Weather Prediction
 sensor:
-  platform: yr
+  - platform: yr
+  - platform: google_travel_time
+    name: !secret travel_sensor_1
+    api_key: !secret google_distance_api_key
+    origin: !secret device_1
+    destination: !secret zone_2_id
+  - platform: google_travel_time
+    name: !secret travel_sensor_2
+    api_key: !secret google_distance_api_key
+    origin: !secret device_2
+    destination: !secret zone_3_id
+  - platform: google_travel_time
+    name: !secret travel_sensor_3
+    api_key: !secret google_distance_api_key
+    origin: !secret device_1
+    destination: zone.home
+  - platform: google_travel_time
+    name: !secret travel_sensor_4
+    api_key: !secret google_distance_api_key
+    origin: !secret device_2
+    destination: zone.home
+  - platform: google_travel_time
+    name: !secret travel_sensor_5
+    api_key: !secret google_distance_api_key
+    origin: !secret device_1
+    destination: !secret device_2
+
 
 # Text to speech
 tts:
@@ -56,30 +82,9 @@ mqtt:
   username: !secret mosquitto_username
   password: !secret mosquitto_password
 
-zone:
-  name: Home
-  latitude: !secret home_lat
-  longitude: !secret home_long
-  radius: 100
-  icon: mdi:home-variant
+zone: !include zones.yaml
 
-zone 2:
-  name: !secret zone_2_name
-  latitude: !secret zone_2_lat
-  longitude: !secret zone_2_long
-  radius: 100
-  icon: mdi:desktop-tower
-
-zone 3:
-  name: !secret zone_3_name
-  latitude: !secret zone_3_lat
-  longitude: !secret zone_3_long
-  radius: 100
-  icon: mdi:hospital
-
-device_tracker:
-  - platform: owntracks
-    #max_gps_accuracy: 50
+device_tracker: !include device_tracker.yaml
 
 # Sends notifications
 notify:
@@ -97,4 +102,53 @@ automation:
       data:
         title: "Alert"
         message: "Home Assistant restarted"
-        #target: ""
+  - alias: "Away Thermostat"
+    trigger:
+      - platform: numeric_state
+        entity_id: !secret travel_sensor_id_3
+        above: '15'
+      - platform: numeric_state
+        entity_id: !secret travel_sensor_id_4
+        above: '15'
+    condition:
+      condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: !secret travel_sensor_id_3
+        above: '15'
+      - condition: numeric_state
+        entity_id: !secret travel_sensor_id_4
+        above: '15'
+    action:
+      - service: climate.set_away_mode
+        data:
+          away_mode: true
+      - service: notify.pushbullet
+        data:
+          title: "Alert"
+          message: "Thermostat set to Away"
+  - alias: "Home Thermostat"
+    trigger:
+      - platform: numeric_state
+        entity_id: !secret travel_sensor_id_3
+        below: '15'
+      - platform: numeric_state
+        entity_id: !secret travel_sensor_id_4
+        below: '15'
+    condition:
+      condition: or
+      conditions:
+      - condition: numeric_state
+        entity_id: !secret travel_sensor_id_3
+        below: '15'
+      - condition: numeric_state
+        entity_id: !secret travel_sensor_id_4
+        below: '15'
+    action:
+      - service: climate.set_away_mode
+        data:
+          away_mode: false
+      - service: notify.pushbullet
+        data:
+          title: "Alert"
+          message: "Thermostat set to Home"

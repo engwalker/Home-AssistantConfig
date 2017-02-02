@@ -1,0 +1,20 @@
+#- zone:
+- name: Home
+  latitude: 35.937501
+  longitude: -86.881988
+  radius: 100
+  icon: mdi:home-variant
+
+#- zone 2:
+- name: Work - Jeremy
+  latitude: 36.1472
+  longitude: -86.794478
+  radius: 100
+  icon: mdi:desktop-tower
+
+#- zone 3:
+- name: Work - Kara
+  latitude: 36.1393366
+  longitude: -86.8046069
+  radius: 100
+  icon: mdi:hospital
