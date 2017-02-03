@@ -1,14 +1,9 @@
 homeassistant:
-  # Name of the location where Home Assistant is running
   name: Home
-  # Location required to calculate the time the sun rises and sets
   latitude: !secret home_lat
   longitude: !secret home_long
-  # Impacts weather/sunrise data (altitude above sea level in meters)
   elevation: 193
-  # metric for Metric, imperial for Imperial
   unit_system: imperial
-  # Pick yours from here: http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
   time_zone: America/Chicago
 
 # Enables the frontend
@@ -38,17 +33,46 @@ sun:
 
 # Weather Prediction
 sensor:
-  - platform: yr
-  - platform: google_travel_time
-    name: !secret travel_sensor_1
-    api_key: !secret google_distance_api_key
-    origin: !secret device_1
-    destination: !secret zone_2_id
-  - platform: google_travel_time
-    name: !secret travel_sensor_2
-    api_key: !secret google_distance_api_key
-    origin: !secret device_2
-    destination: !secret zone_3_id
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    monitored_conditions:
+      - summary
+#      - icon
+#      - nearest_storm_distance
+#      - nearest_storm_bearing
+#      - precip_type
+#      - precip_intensity
+#     - precip_probability
+      - temperature
+#      - apparent_temperature
+#      - dew_point
+#      - wind_speed
+#      - wind_bearing
+#      - cloud_cover
+#      - humidity
+#      - pressure
+#      - visibility
+#      - ozone
+#      - minutely_summary
+#      - hourly_summary
+#      - daily_summary
+#      - temperature_max
+#      - temperature_min
+#      - apparent_temperature_max
+#      - apparent_temperature_min
+#      - precip_intensity_max
+
+# Travel Time sensors
+#  - platform: google_travel_time
+#    name: !secret travel_sensor_1
+#    api_key: !secret google_distance_api_key
+#    origin: !secret device_1
+#    destination: !secret zone_2_id
+#  - platform: google_travel_time
+#    name: !secret travel_sensor_2
+#    api_key: !secret google_distance_api_key
+#    origin: !secret device_2
+#    destination: !secret zone_3_id
   - platform: google_travel_time
     name: !secret travel_sensor_3
     api_key: !secret google_distance_api_key
@@ -59,11 +83,11 @@ sensor:
     api_key: !secret google_distance_api_key
     origin: !secret device_2
     destination: zone.home
-  - platform: google_travel_time
-    name: !secret travel_sensor_5
-    api_key: !secret google_distance_api_key
-    origin: !secret device_1
-    destination: !secret device_2
+#  - platform: google_travel_time
+#    name: !secret travel_sensor_5
+#    api_key: !secret google_distance_api_key
+#    origin: !secret device_1
+#    destination: !secret device_2
 
 
 # Text to speech
@@ -84,8 +108,9 @@ mqtt:
 
 zone: !include zones.yaml
 
-device_tracker: !include device_tracker.yaml
-
+#device_tracker: !include device_tracker.yaml
+device_tracker:
+  - platform: owntracks
 # Sends notifications
 notify:
   - name: pushbullet
@@ -104,6 +129,7 @@ automation:
         message: "Home Assistant restarted"
   - alias: "Away Thermostat"
     trigger:
+#group.all_devices state=not_home
       - platform: numeric_state
         entity_id: !secret travel_sensor_id_3
         above: '15'
