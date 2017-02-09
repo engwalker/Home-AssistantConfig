@@ -129,7 +129,6 @@ automation:
         message: "Home Assistant restarted"
   - alias: "Away Thermostat"
     trigger:
-#group.all_devices state=not_home
       - platform: numeric_state
         entity_id: !secret travel_sensor_id_3
         above: '15'
@@ -178,3 +177,12 @@ automation:
         data:
           title: "Alert"
           message: "Thermostat set to Home"
+
+  - alias: "Daily Restart"
+    trigger:
+      platform: time
+      hours: 1
+      minutes: 0
+      seconds: 0
+    action:
+      service: homeassistant.restart
