@@ -153,7 +153,6 @@ automation:
           title: "Alert"
           message: "Thermostat set to Away"
   - alias: "Home Thermostat"
-    initial_state: false
     trigger:
       - platform: numeric_state
         entity_id: !secret travel_sensor_id_3
@@ -162,14 +161,22 @@ automation:
         entity_id: !secret travel_sensor_id_4
         below: '15'
     condition:
-      condition: or
+      condition: and
       conditions:
-      - condition: numeric_state
-        entity_id: !secret travel_sensor_id_3
-        below: '15'
-      - condition: numeric_state
-        entity_id: !secret travel_sensor_id_4
-        below: '15'
+#      - condition: template
+#        value_template: '{{ states.climate.home.attributes.away_mode == "off" }}'
+#      - condition: state
+#        entity_id: climate.home
+#        attributes: away_mode
+#        
+      - condition: or
+        conditions:
+        - condition: numeric_state
+          entity_id: !secret travel_sensor_id_3
+          below: '15'
+        - condition: numeric_state
+          entity_id: !secret travel_sensor_id_4
+          below: '15'
     action:
       - service: climate.set_away_mode
         data:
@@ -177,7 +184,6 @@ automation:
       - service: notify.pushbullet
         data:
           title: "Alert"
-          message: "Thermostat set to Home"
 
   - alias: "Daily Restart"
     trigger:
