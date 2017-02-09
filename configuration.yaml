@@ -163,12 +163,12 @@ automation:
     condition:
       condition: and
       conditions:
-#      - condition: template
-#        value_template: '{{ states.climate.home.attributes.away_mode == "off" }}'
+      - condition: template
+        value_template: '{{ states.climate.home.attributes.away_mode == "off" }}'
 #      - condition: state
 #        entity_id: climate.home
 #        attributes: away_mode
-#        
+        
       - condition: or
         conditions:
         - condition: numeric_state
