@@ -153,6 +153,7 @@ automation:
           title: "Alert"
           message: "Thermostat set to Away"
   - alias: "Home Thermostat"
+    initial_state: false
     trigger:
       - platform: numeric_state
         entity_id: !secret travel_sensor_id_3
