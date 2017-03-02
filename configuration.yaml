@@ -28,6 +28,9 @@ history:
 # View all events in a logbook
 logbook:
 
+# Configuration
+config:
+
 # Track the sun
 sun:
 
@@ -118,79 +121,4 @@ notify:
     platform: pushbullet
     api_key: !secret pushbullet_api_key
 
-automation:
-  - alias: "Startup Notification"
-    trigger:
-      platform: event
-      event_type: homeassistant_start
-    action:
-      service: notify.pushbullet
-      data:
-        title: "Alert"
-        message: "Home Assistant restarted"
-  - alias: "Away Thermostat"
-    trigger:
-      - platform: numeric_state
-        entity_id: !secret travel_sensor_id_3
-        above: '15'
-      - platform: numeric_state
-        entity_id: !secret travel_sensor_id_4
-        above: '15'
-    condition:
-      condition: and
-      conditions:
-      - condition: numeric_state
-        entity_id: !secret travel_sensor_id_3
-        above: '15'
-      - condition: numeric_state
-        entity_id: !secret travel_sensor_id_4
-        above: '15'
-    action:
-      - service: climate.set_away_mode
-        data:
-          away_mode: true
-      - service: notify.pushbullet
-        data:
-          title: "Alert"
-          message: "Thermostat set to Away"
-  - alias: "Home Thermostat"
-    trigger:
-      - platform: numeric_state
-        entity_id: !secret travel_sensor_id_3
-        below: '15'
-      - platform: numeric_state
-        entity_id: !secret travel_sensor_id_4
-        below: '15'
-    condition:
-      condition: and
-      conditions:
-      - condition: template
-        value_template: '{{ states.climate.home.attributes.away_mode == "off" }}'
-#      - condition: state
-#        entity_id: climate.home
-#        attributes: away_mode
-        
-      - condition: or
-        conditions:
-        - condition: numeric_state
-          entity_id: !secret travel_sensor_id_3
-          below: '15'
-        - condition: numeric_state
-          entity_id: !secret travel_sensor_id_4
-          below: '15'
-    action:
-      - service: climate.set_away_mode
-        data:
-          away_mode: false
-      - service: notify.pushbullet
-        data:
-          title: "Alert"
-
-  - alias: "Daily Restart"
-    trigger:
-      platform: time
-      hours: 1
-      minutes: 0
-      seconds: 0
-    action:
-      service: homeassistant.restart
+automation: !include automation.yaml
