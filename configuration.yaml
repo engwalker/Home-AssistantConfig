@@ -122,3 +122,7 @@ notify:
     api_key: !secret pushbullet_api_key
 
 automation: !include automation.yaml
+
+android_ip_webcam:
+  - host: 192.168.1.4
+    name: TestCam
