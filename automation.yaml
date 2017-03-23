@@ -11,19 +11,19 @@
   trigger:
     - platform: numeric_state
       entity_id: !secret travel_sensor_id_3
-      above: '15'
+      above: '10'
     - platform: numeric_state
       entity_id: !secret travel_sensor_id_4
-      above: '15'
+      above: '10'
   condition:
     condition: and
     conditions:
     - condition: numeric_state
       entity_id: !secret travel_sensor_id_3
-      above: '15'
+      above: '10'
     - condition: numeric_state
       entity_id: !secret travel_sensor_id_4
-      above: '15'
+      above: '10'
   action:
     - service: climate.set_away_mode
       data:
@@ -44,10 +44,10 @@
   trigger:
     - platform: numeric_state
       entity_id: !secret travel_sensor_id_3
-      below: '15'
+      below: '10'
     - platform: numeric_state
       entity_id: !secret travel_sensor_id_4
-      below: '15'
+      below: '10'
   action:
     - service: climate.set_away_mode
       data:
