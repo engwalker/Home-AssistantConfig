@@ -1,7 +1,9 @@
 - alias: "Startup Notification"
   trigger:
-    platform: event
-    event_type: homeassistant_start
+    platform: homeassistant
+    event: start
+    #platform: event
+    #event_type: homeassistant_start
   action:
     service: notify.pushbullet
     data:
