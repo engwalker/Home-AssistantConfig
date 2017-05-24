@@ -85,7 +85,7 @@ notify:
     platform: pushbullet
     api_key: !secret pushbullet_api_key
 
-automation: !include automation.yaml
+automation: !include automations.yaml
 
 android_ip_webcam:
   - host: 192.168.1.4
