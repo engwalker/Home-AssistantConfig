@@ -36,6 +36,8 @@ sun:
 
 # Weather Prediction
 sensor:
+  - platform: yr
+  - platform: pi_hole
   - platform: moon
   - platform: darksky
     api_key: !secret darksky_api_key
