@@ -39,17 +39,17 @@ sensor:
   - platform: yr
   - platform: pi_hole
   - platform: moon
-  - platform: darksky
-    api_key: !secret darksky_api_key
-    monitored_conditions:
-      - summary
+#  - platform: darksky
+#    api_key: !secret darksky_api_key
+#    monitored_conditions:
+#      - summary
 #      - icon
 #      - nearest_storm_distance
 #      - nearest_storm_bearing
 #      - precip_type
 #      - precip_intensity
 #     - precip_probability
-      - temperature
+#      - temperature
 #      - apparent_temperature
 #      - dew_point
 #      - wind_speed
@@ -88,6 +88,7 @@ notify:
     api_key: !secret pushbullet_api_key
 
 automation: !include automations.yaml
+group: !include groups.yaml
 
 #android_ip_webcam:
 #  - host: 192.168.1.4
